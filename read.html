@@ -23,6 +23,8 @@
     <p><a id="back" href="writing.html">← All term papers</a></p>
     <h1 id="paper-title">Loading…</h1>
     <p class="meta">© 2026 Sasha Kovacevic. All rights reserved. Shared for reading only.</p>
+    <!-- Phones only: the phone's own PDF viewer handles zooming far better than the page previews -->
+    <p class="phone-only"><a id="direct-top" class="button" href="writing.html">Open full screen to zoom</a></p>
     <p id="status" class="muted">Loading the paper…</p>
     <div id="pages" class="reader"></div>
     <p class="meta"><a id="direct" href="writing.html">Open the PDF directly</a></p>
@@ -64,6 +66,7 @@ var ENTRIES = {
   document.title = title + ' · Sasha Kovacevic';
   document.getElementById('paper-title').textContent = title;
   document.getElementById('direct').href = url;
+  document.getElementById('direct-top').href = url;
 
   pdfjsLib.getDocument(url).promise.then(function (pdf) {
     status.hidden = true;
