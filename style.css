@@ -1,0 +1,196 @@
+:root {
+  --bg: #fdfcf9;
+  --text: #1f1f1f;
+  --muted: #5f5f5f;
+  --rule: #e2ded6;
+  --accent: #3f7d4e;
+  --measure: 42rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161514;
+    --text: #e8e6e1;
+    --muted: #a3a09a;
+    --rule: #34312d;
+    --accent: #8cc69a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161514;
+  --text: #e8e6e1;
+  --muted: #a3a09a;
+  --rule: #34312d;
+  --accent: #8cc69a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 18px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+/* Header & navigation */
+header.site {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+header.site .name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+
+nav a {
+  margin-left: 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+nav a:first-child { margin-left: 0; }
+nav a:hover, nav a[aria-current="page"] { color: var(--accent); }
+
+/* Sub-navigation within a section (e.g. Writing: Published | Upcoming) */
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  margin: -0.25rem 0 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.subnav a {
+  margin-left: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-size: 0.95rem;
+}
+.subnav a[aria-current="page"] { border-bottom-color: var(--accent); }
+
+/* Typography */
+h1 { font-size: 1.8rem; line-height: 1.25; margin: 0 0 1rem; font-weight: 600; }
+h2 {
+  font-size: 1.15rem;
+  margin: 2.5rem 0 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+h3 { font-size: 1.05rem; margin: 1.5rem 0 0.25rem; }
+a { color: var(--accent); }
+.muted { color: var(--muted); }
+small, .meta { font-size: 0.85rem; color: var(--muted); }
+
+/* About intro with portrait */
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 10rem;
+  gap: 2rem;
+  align-items: start;
+}
+.intro > div { min-width: 0; grid-row: 1; grid-column: 1; }
+.portrait {
+  grid-row: 1;
+  grid-column: 2;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 30%;
+  border: 1px solid var(--rule);
+}
+@media (max-width: 540px) {
+  .intro { grid-template-columns: 1fr; gap: 1.25rem; }
+  .intro > div, .portrait { grid-column: 1; grid-row: auto; }
+  .portrait { width: 9rem; }
+}
+
+/* Lists of work */
+ul.entries { list-style: none; padding: 0; margin: 0; }
+ul.entries li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+ul.entries li:last-child { border-bottom: none; }
+ul.entries .title { font-weight: 600; }
+ul.entries .meta { display: block; margin-top: 0.15rem; }
+ul.entries .links a { font-size: 0.85rem; margin-right: 0.75rem; }
+
+.grade { color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Alphabetical library: a letter column beside each group of entries */
+.letter {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0 1rem;
+  border-top: 1px solid var(--rule);
+}
+.letter > ul { min-width: 0; }
+.letter-mark {
+  margin: 0.85rem 0 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* CV rows: date column + description */
+.cv-row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 0 1rem;
+  padding: 0.5rem 0;
+}
+.cv-row .when { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 540px) {
+  .cv-row { grid-template-columns: 1fr; }
+}
+
+/* Paper reader */
+.reader { display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0; }
+.reader canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--rule);
+}
+
+/* Article pages */
+article p { margin: 0 0 1.1rem; }
+article blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--muted);
+}
+
+footer.site {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--muted);
+}

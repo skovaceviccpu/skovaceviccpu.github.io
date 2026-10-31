@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-page="writing">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading · Sasha Kovacevic</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="style.css">
+  <script src="site-config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a class="name" href="index.html">Sasha Kovacevic</a>
+    <nav>
+      <a data-page="about" href="index.html">About</a>
+      <a data-page="writing" href="writing.html" aria-current="page">Writing</a>
+      <a data-page="code" href="code.html">Code</a>
+    </nav>
+  </header>
+
+  <main>
+    <p><a id="back" href="writing.html">← All term papers</a></p>
+    <h1 id="paper-title">Loading…</h1>
+    <p class="meta">© 2026 Sasha Kovacevic. All rights reserved. Shared for reading only.</p>
+    <p id="status" class="muted">Loading the paper…</p>
+    <div id="pages" class="reader"></div>
+    <p class="meta"><a id="direct" href="writing.html">Open the PDF directly</a></p>
+  </main>
+
+  <footer class="site">© 2026 Sasha Kovacevic</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+// Documents that can be opened here: read.html#<file name without .pdf>
+var PAPERS = {
+  "ethnic-signals-and-investor-choice": "Ethnic Signals and Investor Choice",
+  "innovation-behind-the-veto": "Innovation Behind the Veto",
+  "green-steel-from-western-australia": "Green Steel from Western Australia"
+};
+var ENTRIES = {
+  "makeism": "Makeism",
+  "process-tracing": "Process Tracing"
+};
+
+(function () {
+  var slug = location.hash.slice(1);
+  var title = PAPERS[slug] || ENTRIES[slug];
+  if (ENTRIES[slug]) {
+    var back = document.getElementById('back');
+    back.href = 'encyclopedia.html';
+    back.textContent = '← All encyclopedia entries';
+  }
+  var status = document.getElementById('status');
+  var pages = document.getElementById('pages');
+  if (!title) {
+    document.getElementById('paper-title').textContent = 'Paper not found';
+    status.textContent = 'Choose a paper from the Term Papers page.';
+    return;
+  }
+  var url = 'files/' + slug + '.pdf';
+  document.title = title + ' · Sasha Kovacevic';
+  document.getElementById('paper-title').textContent = title;
+  document.getElementById('direct').href = url;
+
+  pdfjsLib.getDocument(url).promise.then(function (pdf) {
+    status.hidden = true;
+    var chain = Promise.resolve();
+    for (var i = 1; i <= pdf.numPages; i++) {
+      (function (n) {
+        chain = chain.then(function () { return pdf.getPage(n); }).then(function (page) {
+          var base = page.getViewport({ scale: 1 });
+          var vp = page.getViewport({ scale: (pages.clientWidth / base.width) * (window.devicePixelRatio || 1) });
+          var canvas = document.createElement('canvas');
+          canvas.width = vp.width;
+          canvas.height = vp.height;
+          canvas.setAttribute('aria-label', 'Page ' + n + ' of ' + pdf.numPages);
+          pages.appendChild(canvas);
+          return page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+        });
+      })(i);
+    }
+    return chain;
+  }).catch(function () {
+    status.hidden = false;
+    status.textContent = "The paper couldn't be shown here. Try the direct link below.";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Keep the paper PDFs out of search engines and AI training crawlers.
+User-agent: *
+Disallow: /files/
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
