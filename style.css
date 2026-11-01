@@ -247,7 +247,7 @@ footer.site {
 }
 .phone-only { display: none; }
 
-/* Phones: tighter spacing, bigger tap targets, tabs on one swipeable line */
+/* Phones: tighter spacing, bigger tap targets, compact tabs (they wrap on very narrow screens) */
 @media (max-width: 540px) {
   html { font-size: 17px; }
   .wrap {
@@ -261,14 +261,8 @@ footer.site {
   h1 { font-size: 1.6rem; }
   h2 { margin-top: 2rem; }
 
-  .subnav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .subnav::-webkit-scrollbar { display: none; }
-  .subnav a { flex: none; white-space: nowrap; padding-top: 0.3rem; }
+  .subnav { gap: 0.15rem 0.85rem; }
+  .subnav a { white-space: nowrap; padding-top: 0.3rem; font-size: 0.88rem; }
 
   .portrait { width: 7rem; }
   ul.entries .links a { display: inline-block; padding: 0.4rem 0; font-size: 0.95rem; }
